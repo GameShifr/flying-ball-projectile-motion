@@ -1,6 +1,7 @@
 FPS = 30
-width = 1000
-height = 600
+WIDTH = 1000
+HEIGHT = 600
+G = 9.81 # del
 
 #colors
 BLUE = (30, 50, 200)

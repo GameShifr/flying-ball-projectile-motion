@@ -1,27 +1,27 @@
 import pygame
-import obj
+from sprite import *
 from const import *
 
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((width, height))
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Fly ball")
     clock = pygame.time.Clock()
 
-    #HERE
+    s = GameObj("sprites/ball.png")
 
     while True:
         screen.fill(SKY)
         
-        #HERE
+        screen.blit(s.image, s.rect)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 #pygame.quit()
                 exit()
-        pygame.display.flip()
         clock.tick(FPS)
+        pygame.display.update()
 #"""
 
 
