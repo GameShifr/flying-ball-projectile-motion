@@ -1,8 +1,16 @@
 from const import *
 from math import sin, cos
+from sprite import *
 
-class Ball():
+class Ball(GameObj):
+    T = 0
+
     def calculate(self, x, y, a, F, T):
-        rx = x + F * cos(a) * T
-        ry = y + F * sin(a) * T - (G * T**2)/2
-        return rx, ry
+        rx = self.x + F
+        return rx, y
+
+    def Update(self):
+        self.T += 10/100
+        super().Update()
+        x, y = self.calculate(self.x, self.y, 0, 1, self.T)
+        self.MoveTo(x, y)

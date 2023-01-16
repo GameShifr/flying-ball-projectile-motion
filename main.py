@@ -1,5 +1,6 @@
 import pygame
 from sprite import *
+from Ball import Ball
 from const import *
 
 
@@ -9,12 +10,14 @@ def main():
     pygame.display.set_caption("Fly ball")
     clock = pygame.time.Clock()
 
-    s = GameObj("sprites/ball.png")
+    s = Ball("sprites/ball.png")
 
     while True:
         screen.fill(SKY)
         
-        screen.blit(s.image, s.rect)
+        for i in sprites:
+            screen.blit(i.image, i.rect)
+            i.Update()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
