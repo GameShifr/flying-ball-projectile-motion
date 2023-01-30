@@ -11,7 +11,7 @@ def main():
     pygame.display.set_caption("Fly ball")
     clock = pygame.time.Clock()
 
-    s = Ball()
+    s = Ball(screen)
     #g = Gun()
 
     while True:
