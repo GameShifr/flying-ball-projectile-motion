@@ -1,6 +1,7 @@
 import pygame
 from sprite import *
 from Ball import Ball
+from Gun import Gun
 from const import *
 
 
@@ -10,7 +11,8 @@ def main():
     pygame.display.set_caption("Fly ball")
     clock = pygame.time.Clock()
 
-    s = Ball("sprites/ball.png")
+    s = Ball()
+    #g = Gun()
 
     while True:
         screen.fill(SKY)

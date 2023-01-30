@@ -1,6 +1,6 @@
 FPS = 30
-WIDTH = 1000
-HEIGHT = 600
+WIDTH = 1800
+HEIGHT = 1000
 G = 9.81 # del
 
 #colors
