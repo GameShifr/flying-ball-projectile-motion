@@ -21,25 +21,23 @@ class GameObj(pygame.sprite.Sprite):
     def __init__(self, screen, x=WIDTH/2, y=HEIGHT/2, layer=-1) -> None:
         pygame.sprite.Sprite.__init__(self)
         self.change_sprite(self.sprite)
-        self.MoveTo(x, y)
+        self.MoveTo((x, y))
         self.start_x = x
         self.start_y = y
         self.change_layer(layer)
         self.screen = screen
-        self.size = self.GetSize()
 
-    def MoveTo(self, x, y):
-        self.rect.centerx = x
-        self.rect.centery = HEIGHT - y
-    def MoveToCoord(self, center):
-        self.rect.center = center
+    def MoveTo(self, coord):
+        self.rect.centerx = coord[0]
+        self.rect.centery = coord[1]
     def Move(self, x, y):
         self.MoveTo(self.x + x, self.y - y)
+    def GetCoord(self):
+        return (self.rect.centerx, self.rect.centery)
 
     def Update(self):
         self.x = self.rect.centerx
         self.y = self.rect.centery
-        self.Resize(self.size)
 
     def Resize(self, size):
         center = self.rect.center

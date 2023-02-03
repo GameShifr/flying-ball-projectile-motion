@@ -11,13 +11,12 @@ def main():
     pygame.display.set_caption("Fly ball")
     clock = pygame.time.Clock()
 
-    g = Gun(screen)
-    g.size = (160, 100)
-    g.MoveTo(700, 300)
+    gun = Gun(screen)
+    gun.Resize((160, 100))
 
     while True:
         screen.fill(SKY)
-        
+
         for i in sprites:
             screen.blit(i.image, i.rect)
             i.Update()
@@ -27,7 +26,9 @@ def main():
                 #pygame.quit()
                 exit()
             if event.type == pygame.MOUSEMOTION:
-                g.cursorPos = event.pos
+                gun.cursorPos = event.pos
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                gun.fShoot = True
         clock.tick(FPS)
         pygame.display.update()
 #"""

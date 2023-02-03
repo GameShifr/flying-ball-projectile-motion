@@ -1,6 +1,7 @@
 from const import *
 from sprite import *
 from Ball import Ball
+import threading
 from pygame import draw
 from math import atan2, degrees, sqrt, sin, cos
 
@@ -8,14 +9,14 @@ class Gun(GameObj):
     sprite = "sprites/guns/gun.png"
     #sprite = "sprites/balls/ball.png"#del
     cursorPos = (0, 0)
+    fShoot = False
 
     def __init__(self, screen, x=WIDTH/2, y=HEIGHT/2, layer=-1) -> None:
         super().__init__(screen, x, y, layer)
         self.ball = None
-        self.image.fill(WHITE)
-        self.Recharge()
+        #self.image.fill(WHITE)
 
-    def DrawArrow(self, startPos, drawXY=True, invert=False, maxLine=False):
+    def DrawArrow(self, startPos, drawXY=False, invert=False, maxLine=False):
         endPos = self.rect.center #(self.rect.right, self.rect.centery)
         maxL = 300
 
@@ -44,15 +45,8 @@ class Gun(GameObj):
         
         return hip
 
-    def Recharge(self):
-        if (self.ball == None):
-            self.ball = Ball(self.screen, self.rect.right, self.rect.centery)
-
     def Update(self):
         super().Update()
-        c = self.DrawArrow(self.cursorPos, invert=False)
+
+        c = self.DrawArrow(self.cursorPos, True)
         self.RotateTo(-self.a)
-
-
-        
-        
