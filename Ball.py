@@ -14,6 +14,7 @@ class Ball(GameObj):
         super().__init__(screen, x, y, layer)
         self.size = (30, 30)
         self.a = 0
+        self.F = 50
 
     def calculate(self, a, V, t):
         Vx = V * cos(radians(a))
@@ -26,6 +27,7 @@ class Ball(GameObj):
 
     def Update(self):
         super().Update()
-        self.T += 1 /FPS
-        x, y = self.calculate(self.a, 50, self.T)
-        self.MoveTo((x, HEIGHT-y))
+        if (self.fShoot):
+            self.T += 1 /FPS
+            x, y = self.calculate(self.a, self.F, self.T)
+            self.MoveTo((x, self.invertY(y)))

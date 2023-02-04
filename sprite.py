@@ -16,6 +16,8 @@ class GameObj(pygame.sprite.Sprite):
             sprites.append(self)
         else:
             sprites.insert(layer, self)
+    def get_layer(self):
+        return sprites.index(self)
 
 
     def __init__(self, screen, x=WIDTH/2, y=HEIGHT/2, layer=-1) -> None:
@@ -26,7 +28,10 @@ class GameObj(pygame.sprite.Sprite):
         self.start_y = y
         self.change_layer(layer)
         self.screen = screen
+        self.size = self.image.get_size()
 
+    def invertY(self, y):
+        return HEIGHT - y
     def MoveTo(self, coord):
         self.rect.centerx = coord[0]
         self.rect.centery = coord[1]
@@ -40,14 +45,12 @@ class GameObj(pygame.sprite.Sprite):
         self.y = self.rect.centery
 
     def Resize(self, size):
+        self.size = size
         center = self.rect.center
         self.image = pygame.transform.scale(self.image, size)
         self.start_image = pygame.transform.scale(self.start_image, size)
         self.rect = self.image.get_rect()
         self.rect.center = center
-    def GetSize(self):
-        size = self.image.get_size()
-        return size
 
     def RotateTo(self, angle:float):
         center = self.rect.center
