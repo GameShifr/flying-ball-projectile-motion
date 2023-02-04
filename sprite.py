@@ -30,8 +30,6 @@ class GameObj(pygame.sprite.Sprite):
         self.screen = screen
         self.size = self.image.get_size()
 
-    def invertY(self, y):
-        return HEIGHT - y
     def MoveTo(self, coord):
         self.rect.centerx = coord[0]
         self.rect.centery = coord[1]
@@ -41,8 +39,7 @@ class GameObj(pygame.sprite.Sprite):
         return (self.rect.centerx, self.rect.centery)
 
     def Update(self):
-        self.x = self.rect.centerx
-        self.y = self.rect.centery
+        pass
 
     def Resize(self, size):
         self.size = size

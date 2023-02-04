@@ -12,7 +12,9 @@ def main():
     clock = pygame.time.Clock()
 
     gun = Gun(screen)
-    gun.Resize((160, 100))
+    gun.Resize((80, 50))
+    gun.MoveTo((20, invertY(20)))
+    #gun.Resize((160, 100))
 
     while True:
         screen.fill(SKY)

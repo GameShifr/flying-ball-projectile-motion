@@ -46,17 +46,18 @@ class Gun(GameObj):
         return hip
             
     def PlaceBall(self):
+        h = self.size[0] /2
+        yCat = sin(radians(self.a)) * h
+        xCat = cos(radians(self.a)) * h
+
+        x = self.GetCoord()[0] + xCat
+        y = self.GetCoord()[1] + yCat
+
         if (self.ball != None):
-            h = self.size[0] /2
-            yCat = sin(radians(self.a)) * h
-            xCat = cos(radians(self.a)) * h
-
-            x = self.GetCoord()[0] + xCat
-            y = self.GetCoord()[1] + yCat
-
             self.ball.MoveTo((x, y))
             self.ball.start_x = x
-            self.ball.start_y = self.invertY(y)
+            self.ball.start_y = invertY(y)
+        return (x, y)
     def Action(self):
         if (self.ball != None): #shoot
             self.ball.a = -self.a
@@ -67,6 +68,8 @@ class Gun(GameObj):
             l = self.get_layer() - 1
             if l < 0 : l = 0
             self.ball = Ball(self.screen, layer=l)
+            s = self.size[1] /2
+            self.ball.Resize((s, s))
 
     def Update(self):
         super().Update()

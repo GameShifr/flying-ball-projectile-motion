@@ -15,6 +15,7 @@ class Ball(GameObj):
         self.size = (30, 30)
         self.a = 0
         self.F = 50
+        self.path = []
 
     def calculate(self, a, V, t):
         Vx = V * cos(radians(a))
@@ -25,9 +26,28 @@ class Ball(GameObj):
 
         return x, y
 
+    def collide(self, pos):
+        if ((pos[0] > WIDTH) or (pos[0] < 0)) or ((pos[1] > HEIGHT) or (pos[1] < 0)):
+            return True
+        return False
+
     def Update(self):
         super().Update()
-        if (self.fShoot):
+        if (self.fShoot) and not(self.collide(self.GetCoord())):
             self.T += 1 /FPS
             x, y = self.calculate(self.a, self.F, self.T)
-            self.MoveTo((x, self.invertY(y)))
+            self.MoveTo((x, invertY(y)))
+        self.DrawPath(self.path, 10)
+    
+    def DrawPath(self, arr, callD=0):
+        if (len(arr) < 2):
+            arr.append(callD*FPS)
+            arr.append([(self.start_x, invertY(self.start_y))])
+
+        if (arr[0] >= 0):
+            if (arr[1][-1] != self.GetCoord()):
+                arr[1].append(self.GetCoord())
+            draw.lines(self.screen, RED, False, arr[1], 3)
+            if (self.collide(self.GetCoord())):
+                arr[0] -= 1
+        
