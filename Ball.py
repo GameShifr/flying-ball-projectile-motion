@@ -3,6 +3,7 @@ from math import sin, cos, radians
 import math
 from sprite import *
 from pygame import draw
+from text import Text
 
 class Ball(GameObj):
     T = 0
@@ -16,6 +17,7 @@ class Ball(GameObj):
         self.a = 0
         self.F = 50
         self.path = []
+        self.pos_txt = Text(screen)
 
     def calculate(self, a, V, t):
         Vx = V * cos(radians(a))
@@ -33,21 +35,19 @@ class Ball(GameObj):
 
     def Update(self):
         super().Update()
-        if (self.fShoot) and not(self.collide(self.GetCoord())):
-            self.T += 1 /FPS
-            x, y = self.calculate(self.a, self.F, self.T)
-            self.MoveTo((x, invertY(y)))
-        self.DrawPath(self.path, 10)
+        if (self.fShoot):
+            if not(self.collide(self.GetCoord())):
+                self.T += 1 /FPS
+                x, y = self.calculate(self.a, self.F, self.T)
+                self.MoveTo((x, invertY(y)))
+            self.pos_txt.update(str(self.GetCoord()), self.GetCoord(), "bottomcenter")
+            self.DrawPath(self.path)
     
-    def DrawPath(self, arr, callD=0):
-        if (len(arr) < 2):
-            arr.append(callD*FPS)
-            arr.append([(self.start_x, invertY(self.start_y))])
+    def DrawPath(self, arr):
+        if (len(arr) < 1):
+            arr.append((self.start_x, invertY(self.start_y)))
 
-        if (arr[0] >= 0):
-            if (arr[1][-1] != self.GetCoord()):
-                arr[1].append(self.GetCoord())
-            draw.lines(self.screen, RED, False, arr[1], 3)
-            if (self.collide(self.GetCoord())):
-                arr[0] -= 1
+        if (arr[-1] != self.GetCoord()):
+            arr.append(self.GetCoord())
+        draw.lines(self.screen, RED, False, arr, 3)
         

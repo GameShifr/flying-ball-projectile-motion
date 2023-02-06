@@ -14,34 +14,42 @@ class Gun(GameObj):
     def __init__(self, screen, x=WIDTH/2, y=HEIGHT/2, layer=-1) -> None:
         super().__init__(screen, x, y, layer)
         self.ball = None
+        self.a = 0
+        self.F = 0
         #self.image.fill(WHITE)
 
-    def DrawArrow(self, startPos, drawXY=False, invert=False, maxLine=False):
-        endPos = self.rect.center #(self.rect.right, self.rect.centery)
-        maxL = 300
+    def DrawArrow(self, cursorPos, drawXY=False, invert=False, a=None, c=None):
+        startPos = self.rect.center #(self.rect.right, self.rect.centery)
+        xCat = cursorPos[0] - startPos[0]
+        yCat = cursorPos[1] - startPos[1]
+        self.a = degrees(atan2(yCat, xCat))
+        hip = sqrt(xCat**2 + yCat**2)
+
+        if (c != None):
+            hip = c*10
+        if (a != None):
+            self.a = a
+        yCat = sin(radians(self.a)) * hip
+        xCat = cos(radians(self.a)) * hip
+
+        endPos = (startPos[0] + xCat, startPos[1] + yCat)
 
         draw.line(self.screen, GREEN, startPos, endPos, 3)
 
-        xCat = startPos[0] - endPos[0]
-        yCat = startPos[1] - endPos[1]
-        self.a = degrees(atan2(yCat, xCat))
-        hip = sqrt(xCat**2 + yCat**2)
         
         if (invert):
             self.a -= 180
-            if (maxLine):
-                pass
             XEndPos = endPos[0] - xCat
             YEndPos = endPos[1] - yCat
             EEndPos = (XEndPos, YEndPos)
             draw.line(self.screen, GREEN, endPos, EEndPos, 3)
 
         if (drawXY):
-            draw.line(self.screen, BLACKGREEN, (startPos), (endPos[0], startPos[1]), 1)
-            draw.line(self.screen, BLACKGREEN, (endPos[0], startPos[1]), (endPos), 1)
+            draw.line(self.screen, GREEN, (startPos), (endPos[0], startPos[1]), 1)
+            draw.line(self.screen, GREEN, (endPos[0], startPos[1]), (endPos), 1)
             if (invert):
-                draw.line(self.screen, BLACKGREEN, (endPos), (EEndPos[0], endPos[1]), 1)
-                draw.line(self.screen, BLACKGREEN, (EEndPos[0], endPos[1]), (EEndPos), 1)
+                draw.line(self.screen, GREEN, (endPos), (EEndPos[0], endPos[1]), 1)
+                draw.line(self.screen, GREEN, (EEndPos[0], endPos[1]), (EEndPos), 1)
         
         return hip
             
@@ -61,7 +69,7 @@ class Gun(GameObj):
     def Action(self):
         if (self.ball != None): #shoot
             self.ball.a = -self.a
-            self.ball.F = 50               #re
+            self.ball.F = self.F              #re
             self.ball.fShoot = True
             self.ball = None
         else: #recharge
@@ -74,7 +82,7 @@ class Gun(GameObj):
     def Update(self):
         super().Update()
 
-        c = self.DrawArrow(self.cursorPos, True)
+        self.F = self.DrawArrow(self.cursorPos, True)/10
         self.RotateTo(-self.a)
         if (self.fShoot == True):
             self.Action()

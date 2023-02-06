@@ -9,7 +9,8 @@ SKY = (0, 200, 255)
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
-BLACKGREEN = (0, 255, 40)
+BLACKGREEN = (0, 100, 0)
+BLACK = (0, 0, 0)
 
 def invertY(y):
     return HEIGHT - y
