@@ -16,6 +16,8 @@ class Gun(GameObj):
         self.ball = None
         self.a = 0
         self.F = 0
+        self.ia = None
+        self.iv = None
         #self.image.fill(WHITE)
 
     def DrawArrow(self, cursorPos, drawXY=False, invert=False, a=None, c=None):
@@ -27,8 +29,12 @@ class Gun(GameObj):
 
         if (c != None):
             hip = c*10
+        elif (self.iv != None):
+            hip = hip//self.iv
         if (a != None):
             self.a = a
+        elif (self.ia != None):
+            self.a = self.a//self.ia
         yCat = sin(radians(self.a)) * hip
         xCat = cos(radians(self.a)) * hip
 
@@ -82,7 +88,7 @@ class Gun(GameObj):
     def Update(self):
         super().Update()
 
-        self.F = self.DrawArrow(self.cursorPos, True)/10
+        self.F = self.DrawArrow(self.cursorPos, True, a=self._a, c=self._v)/10
         self.RotateTo(-self.a)
         if (self.fShoot == True):
             self.Action()

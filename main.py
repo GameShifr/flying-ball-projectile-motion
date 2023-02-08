@@ -17,14 +17,15 @@ def main():
     gun.Resize((80, 50))
     gun.MoveTo((60, invertY(100)))
     #gun.Resize((160, 100))
-    a_txt = Text(screen)
-    v_txt = Text(screen)
+    size_txt = 24
+    a_txt = Text(screen, textRange=(-180, 180), size=size_txt)
+    v_txt = Text(screen, textRange=(0, None), size=size_txt)
 
     while True:
         screen.fill(SKY)
 
-        a_txt.update("a:"+str(round(gun.a, 1)), (10, 10))
-        v_txt.update("v:"+str(round(gun.F, 1)), (10, 34))
+        gun._a = a_txt.update(str(round(gun.a, 1)), (10, 10))
+        gun._v = v_txt.update(str(round(gun.F, 1)), (10, 34))
 
         for i in sprites:
             screen.blit(i.image, i.rect)
@@ -44,6 +45,16 @@ def main():
                 if a_txt.Click():pass
                 elif v_txt.Click():pass
                 else: gun.fShoot = True
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    t = "backspace"
+                else:
+                    t = event.unicode
+                if (a_txt.cursorCollide):
+                    a_txt.Input(t)
+                elif (v_txt.cursorCollide):
+                    v_txt.Input(t)
 
         clock.tick(FPS)
         pygame.display.update()
