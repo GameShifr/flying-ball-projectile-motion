@@ -1,12 +1,13 @@
-from const import *
+from data import *
 import pygame
 
 sprites = []
 
 class GameObj(pygame.sprite.Sprite):
-    sprite = "sprites/ball.png" #default image
+    sprite = "sprites/balls/ball.png" #default image
 
-    def change_sprite(self, filename):
+    def change_sprite(self, filename=None):
+        if filename == None: filename = self.sprite
         self.image = pygame.image.load(filename).convert_alpha() #Surface
         self.start_image = self.image
         self.rect = self.image.get_rect()
@@ -20,9 +21,9 @@ class GameObj(pygame.sprite.Sprite):
         return sprites.index(self)
 
 
-    def __init__(self, screen, x=WIDTH/2, y=HEIGHT/2, layer=-1) -> None:
+    def __init__(self, screen, x:float=WIDTH/2, y:float=HEIGHT/2, layer=-1) -> None:
         pygame.sprite.Sprite.__init__(self)
-        self.change_sprite(self.sprite)
+        self.change_sprite()
         self.MoveTo((x, y))
         self.start_x = x
         self.start_y = y
@@ -35,7 +36,7 @@ class GameObj(pygame.sprite.Sprite):
         self.rect.centery = coord[1]
     def Move(self, x, y):
         self.MoveTo(self.x + x, self.y - y)
-    def GetCoord(self):
+    def GetCoord(self): #NOTE!!!: add array of coord systems in other pos of rect
         return (self.rect.centerx, self.rect.centery)
 
     def Update(self):

@@ -1,9 +1,8 @@
-from const import *
+from data import *
 from math import sin, cos, radians
-import math
+from ui import Text
 from sprite import *
 from pygame import draw
-from text import Text
 
 class Ball(GameObj):
     T = 0
@@ -17,7 +16,7 @@ class Ball(GameObj):
         self.a = 0
         self.F = 50
         self.path = []
-        self.pos_txt = Text(screen)
+        self.t = Text(self.screen, x, y)
 
     def calculate(self, a, V, t):
         Vx = V * cos(radians(a))
@@ -40,8 +39,10 @@ class Ball(GameObj):
                 self.T += 1 /FPS
                 x, y = self.calculate(self.a, self.F, self.T)
                 self.MoveTo((x, invertY(y)))
-            self.pos_txt.update(str(self.GetCoord()), self.GetCoord(), "bottomcenter")
             self.DrawPath(self.path)
+
+            self.t.MoveTo((self.GetCoord()[0], self.GetCoord()[1]-self.rect.height/2-self.t.rect.height/2))
+            self.t.change_text(str(self.GetCoord()))
     
     def DrawPath(self, arr):
         if (len(arr) < 1):

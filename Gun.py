@@ -1,4 +1,4 @@
-from const import *
+from data import *
 from sprite import *
 from Ball import Ball
 import threading
@@ -7,8 +7,6 @@ from math import atan2, degrees, sqrt, sin, cos, radians
 
 class Gun(GameObj):
     sprite = "sprites/guns/gun.png"
-    #sprite = "sprites/balls/ball.png"#del
-    cursorPos = (0, 0)
     fShoot = False
 
     def __init__(self, screen, x=WIDTH/2, y=HEIGHT/2, layer=-1) -> None:
@@ -16,12 +14,11 @@ class Gun(GameObj):
         self.ball = None
         self.a = 0
         self.F = 0
-        self.ia = None
-        self.iv = None
-        #self.image.fill(WHITE)
+        self.lock_a = None
+        self.lock_v = None
 
     def DrawArrow(self, cursorPos, drawXY=False, invert=False, a=None, c=None):
-        startPos = self.rect.center #(self.rect.right, self.rect.centery)
+        startPos = self.rect.center
         xCat = cursorPos[0] - startPos[0]
         yCat = cursorPos[1] - startPos[1]
         self.a = degrees(atan2(yCat, xCat))
@@ -29,12 +26,8 @@ class Gun(GameObj):
 
         if (c != None):
             hip = c*10
-        elif (self.iv != None):
-            hip = hip//self.iv
         if (a != None):
             self.a = a
-        elif (self.ia != None):
-            self.a = self.a//self.ia
         yCat = sin(radians(self.a)) * hip
         xCat = cos(radians(self.a)) * hip
 
@@ -88,7 +81,7 @@ class Gun(GameObj):
     def Update(self):
         super().Update()
 
-        self.F = self.DrawArrow(self.cursorPos, True, a=self._a, c=self._v)/10
+        self.F = self.DrawArrow(cursorPos, True, a=self.lock_a, c=self.lock_v)/10
         self.RotateTo(-self.a)
         if (self.fShoot == True):
             self.Action()

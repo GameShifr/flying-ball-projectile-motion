@@ -12,5 +12,7 @@ GREEN = (0, 255, 0)
 BLACKGREEN = (0, 100, 0)
 BLACK = (0, 0, 0)
 
+#public
 def invertY(y):
     return HEIGHT - y
+cursorPos = [0, 0]
