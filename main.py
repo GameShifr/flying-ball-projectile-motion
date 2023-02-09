@@ -3,6 +3,7 @@ from sprite import *
 from Ball import Ball
 from Gun import Gun
 from data import * 
+import data
 
 
 def main():
@@ -42,6 +43,9 @@ def main():
                     t = "backspace"
                 else:
                     t = event.unicode
+                data.key = t
+            else:
+                data.key = ""
 
         clock.tick(FPS)
         pygame.display.update()

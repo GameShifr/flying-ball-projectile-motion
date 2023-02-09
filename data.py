@@ -16,3 +16,4 @@ BLACK = (0, 0, 0)
 def invertY(y):
     return HEIGHT - y
 cursorPos = [0, 0]
+key = ""
