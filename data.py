@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 FPS = 30
 WIDTH = 1500
 HEIGHT = 700
@@ -15,5 +17,9 @@ BLACK = (0, 0, 0)
 #public
 def invertY(y):
     return HEIGHT - y
-cursorPos = [0, 0]
-key = ""
+
+@dataclass
+class GameData():
+    cursorPos = [0, 0]
+    key = ""
+    click = False

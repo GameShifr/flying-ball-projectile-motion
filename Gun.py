@@ -1,7 +1,6 @@
 from data import *
 from sprite import *
 from Ball import Ball
-import threading
 from pygame import draw
 from math import atan2, degrees, sqrt, sin, cos, radians
 
@@ -16,8 +15,10 @@ class Gun(GameObj):
         self.F = 0
         self.lock_a = None
         self.lock_v = None
+        self.iter_a = None
+        self.iter_v = None
 
-    def DrawArrow(self, cursorPos, drawXY=False, invert=False, a=None, c=None):
+    def DrawArrow(self, cursorPos, drawXY=False, invert=False, a=None, c=None, ia=None, ic=None):
         startPos = self.rect.center
         xCat = cursorPos[0] - startPos[0]
         yCat = cursorPos[1] - startPos[1]
@@ -26,8 +27,12 @@ class Gun(GameObj):
 
         if (c != None):
             hip = c*10
+        elif (ic != None):
+            hip -= hip%ic
         if (a != None):
             self.a = a
+        elif (ia != None):
+            self.a -= self.a%ia
         yCat = sin(radians(self.a)) * hip
         xCat = cos(radians(self.a)) * hip
 
@@ -81,7 +86,7 @@ class Gun(GameObj):
     def Update(self):
         super().Update()
 
-        self.F = self.DrawArrow(cursorPos, True, a=self.lock_a, c=self.lock_v)/10
+        self.F = self.DrawArrow(GameData.cursorPos, True, a=self.lock_a, c=self.lock_v, ia=self.iter_a, ic=self.iter_v)/10
         self.RotateTo(-self.a)
         if (self.fShoot == True):
             self.Action()

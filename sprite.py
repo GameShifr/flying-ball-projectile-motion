@@ -31,9 +31,19 @@ class GameObj(pygame.sprite.Sprite):
         self.screen = screen
         self.size = self.image.get_size()
 
-    def MoveTo(self, coord):
-        self.rect.centerx = coord[0]
-        self.rect.centery = coord[1]
+    def MoveTo(self, pos, type="center"):
+        if type == "center":
+            self.rect.center=pos
+        elif type == "topleft":
+            self.rect.topleft=pos
+        elif type == "bottomcenter":
+            self.rect.bottom=pos[1]
+            self.rect.centerx = pos[0]
+        elif type == "bottomright":
+            self.rect.bottomright=pos
+        elif type == "bottomleft":
+            self.rect.bottomleft=pos
+            
     def Move(self, x, y):
         self.MoveTo(self.x + x, self.y - y)
     def GetCoord(self): #NOTE!!!: add array of coord systems in other pos of rect
