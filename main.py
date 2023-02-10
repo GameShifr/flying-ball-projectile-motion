@@ -3,6 +3,8 @@ from sprite import *
 from ui import Button
 from Gun import Gun
 from data import * 
+from target import Target
+from random import randrange
 
 
 def main():
@@ -24,6 +26,9 @@ def main():
     ia_b.MoveTo((130, 10), "topleft")
     if_b = Button(screen, canEdit=True, editRange=(1, None), oneText=True)
     if_b.MoveTo((130, 35), "topleft")
+
+    target = Target(screen, )
+    target.MoveTo((randrange(0, WIDTH), randrange(0, HEIGHT)))
 
     while True:
         screen.fill(SKY)

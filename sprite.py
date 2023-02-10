@@ -2,6 +2,7 @@ from data import *
 import pygame
 
 sprites = []
+colliders = []
 
 class GameObj(pygame.sprite.Sprite):
     sprite = "sprites/balls/ball.png" #default image
@@ -13,6 +14,8 @@ class GameObj(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def change_layer(self, layer=-1):
+        try: sprites.pop(sprites.index(self))
+        except:pass
         if layer == -1:
             sprites.append(self)
         else:
@@ -20,8 +23,7 @@ class GameObj(pygame.sprite.Sprite):
     def get_layer(self):
         return sprites.index(self)
 
-
-    def __init__(self, screen, x:float=WIDTH/2, y:float=HEIGHT/2, layer=-1) -> None:
+    def __init__(self, screen, x:float=WIDTH/2, y:float=HEIGHT/2, layer=-1, collider=True) -> None:
         pygame.sprite.Sprite.__init__(self)
         self.change_sprite()
         self.MoveTo((x, y))
@@ -30,6 +32,8 @@ class GameObj(pygame.sprite.Sprite):
         self.change_layer(layer)
         self.screen = screen
         self.size = self.image.get_size()
+        if (collider):
+            colliders.append(self)
 
     def MoveTo(self, pos, type="center"):
         if type == "center":
@@ -51,6 +55,11 @@ class GameObj(pygame.sprite.Sprite):
 
     def Update(self):
         pass
+
+    def IsCollide(self, pos):
+        if (self.rect.collidepoint(pos)):
+            return True
+        return False
 
     def Resize(self, size):
         self.size = size

@@ -7,7 +7,7 @@ class Text(GameObj):
 
     def __init__(self, screen, x: float=0, y: float=0, layer=-1) -> None:
         self.rect = pygameRect.Rect(x, y, 0, 0)
-        super().__init__(screen, x, y, layer)
+        super().__init__(screen, x, y, layer, False)
 
     def change_sprite(self, size=24, font="arial", color=BLACK, bgcolor=None):
         f = pygameFont.SysFont(font, size)

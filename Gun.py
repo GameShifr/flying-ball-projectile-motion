@@ -9,7 +9,7 @@ class Gun(GameObj):
     fShoot = False
 
     def __init__(self, screen, x=WIDTH/2, y=HEIGHT/2, layer=-1) -> None:
-        super().__init__(screen, x, y, layer)
+        super().__init__(screen, x, y, layer, False)
         self.ball = None
         self.a = 0
         self.F = 0
