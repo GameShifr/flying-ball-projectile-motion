@@ -66,7 +66,7 @@ class Ball(GameObj):
             else: #delete self.t
                 pass
     
-    def Traect(self):
+    def Traect(self, ite=10):
         if (self.GetCoord() != (self.start_x, self.start_y)):
             self.t_T = 0
             self.t_path = []
@@ -74,7 +74,7 @@ class Ball(GameObj):
             x, y = self.calculate(self.a, self.F, self.t_T)
             y = invertY(y)
             if (not self.collide((x, y))):
-                self.t_T += 1/FPS
+                self.t_T += 1/FPS * ite
             else:
                 break
             if (len(self.t_path) < 1):
@@ -83,7 +83,8 @@ class Ball(GameObj):
             if (self.t_path[-1] != (x, y)):
                 self.t_path.append((x, y))
 
-        draw.lines(self.screen, RED, False, self.t_path, 3)
+        try:draw.lines(self.screen, RED, False, self.t_path, 3)
+        except:print("e")
     
     def DrawPath(self, arr, pos):
         if (len(arr) < 1):
@@ -92,5 +93,5 @@ class Ball(GameObj):
         if (arr[-1] != pos):
             arr.append(pos)
         try: draw.lines(self.screen, RED, False, arr, 3)
-        except: pass#print(arr, len(arr))
+        except: print("e")
         
