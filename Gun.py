@@ -6,7 +6,6 @@ from math import atan2, degrees, sqrt, sin, cos, radians
 
 class Gun(GameObj):
     sprite = "sprites/guns/gun.png"
-    fShoot = False
 
     def __init__(self, screen, x=WIDTH/2, y=HEIGHT/2, layer=-1) -> None:
         super().__init__(screen, x, y, layer, False)
@@ -17,6 +16,7 @@ class Gun(GameObj):
         self.lock_v = None
         self.iter_a = None
         self.iter_v = None
+        self.fShoot = False
 
     def DrawArrow(self, cursorPos, drawXY=False, invert=False, a=None, c=None, ia=None, ic=None):
         startPos = self.rect.center
@@ -66,14 +66,17 @@ class Gun(GameObj):
         y = self.GetCoord()[1] + yCat
 
         if (self.ball != None):
+            self.ball.a = -self.a
+            self.ball.F = self.F              #re
             self.ball.MoveTo((x, y))
             self.ball.start_x = x
             self.ball.start_y = invertY(y)
+            self.ball.Traect()
         return (x, y)
     def Action(self):
         if (self.ball != None): #shoot
-            self.ball.a = -self.a
-            self.ball.F = self.F              #re
+            #self.ball.a = -self.a
+            #self.ball.F = self.F              #re
             self.ball.fShoot = True
             self.ball = None
         else: #recharge
