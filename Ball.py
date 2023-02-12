@@ -41,10 +41,10 @@ class Ball(GameObj):
                 yCat = sin(radians(i)) * r
                 xCat = cos(radians(i)) * r
 
-                x = self.GetCoord()[0] + xCat - 1   #del
-                y = self.GetCoord()[1] + yCat - 1
+                x = self.GetCoord()[0] + xCat
+                y = self.GetCoord()[1] + yCat 
 
-                if (obj.IsCollide((x, y))) and (obj != self):
+                if (obj.IsCollide((x, y), self)) and (obj != self):
                     return True
 
         return False

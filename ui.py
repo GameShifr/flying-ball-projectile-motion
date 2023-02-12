@@ -79,7 +79,7 @@ class Button(Text):
             if (self.oneText):
                 self.change_text(self.inp_text)
             else: self.change_text(self.text)
-        if (self.rect.collidepoint(GameData.cursorPos)):
+        if (self.rect.collidepoint(GameData.cursorPos)): #opt
             self.change_text(self.inp_text)
             self.change_sprite(color=self.colors[1][0], bgcolor=self.colors[1][1])
             self.Input(GameData.key)

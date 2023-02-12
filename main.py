@@ -14,9 +14,13 @@ def main():
     clock = pygame.time.Clock()
     font = pygame.font.SysFont("arial", 24)
 
-    gun = Gun(screen)
+    gun = Gun(screen, balls=5)
     gun.Resize((80, 50))
     gun.MoveTo((60, invertY(100)))
+    gun = Gun(screen, balls=5)
+    gun.Resize((80, 50))
+    gun.MoveTo((WIDTH-60, invertY(100)))
+    GameData.gun = gun
     
     a_b = Button(screen, canEdit=True, editRange=(-180, 180))
     a_b.MoveTo((10, 10), "topleft")
@@ -32,6 +36,8 @@ def main():
 
     while True:
         screen.fill(SKY)
+        gun = GameData.gun
+        gun.active = True
 
         for i in sprites:
             screen.blit(i.image, i.rect)

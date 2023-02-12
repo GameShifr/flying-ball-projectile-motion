@@ -23,3 +23,4 @@ class GameData():
     cursorPos = [0, 0]
     key = ""
     click = False
+    gun = None

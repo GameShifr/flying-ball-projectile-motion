@@ -5,7 +5,7 @@ from math import sqrt
 class Target(GameObj):
     sprite = "sprites/targets/target.png"
 
-    def IsCollide(self, pos):
+    def IsCollide(self, pos, obj):
         r = self.size[0] / 2
         x = self.GetCoord()[0] - pos[0]
         y = self.GetCoord()[1] - pos[1]

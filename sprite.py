@@ -56,7 +56,7 @@ class GameObj(pygame.sprite.Sprite):
     def Update(self):
         pass
 
-    def IsCollide(self, pos):
+    def IsCollide(self, pos, obj):
         if (self.rect.collidepoint(pos)):
             return True
         return False
