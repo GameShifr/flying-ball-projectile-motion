@@ -35,6 +35,10 @@ class GameObj(pygame.sprite.Sprite):
         if (collider):
             colliders.append(self)
 
+    def Delete(self):
+        try:sprites.pop(sprites.index(self))
+        except: pass
+
     def MoveTo(self, pos, type="center"):
         if type == "center":
             self.rect.center=pos

@@ -41,8 +41,8 @@ class Ball(GameObj):
                 yCat = sin(radians(i)) * r
                 xCat = cos(radians(i)) * r
 
-                x = self.GetCoord()[0] + xCat
-                y = self.GetCoord()[1] + yCat 
+                x = pos[0] + xCat
+                y = pos[1] + yCat 
 
                 if (obj.IsCollide((x, y), self)) and (obj != self):
                     return True
@@ -64,7 +64,7 @@ class Ball(GameObj):
                 self.t.MoveTo((self.GetCoord()[0], self.GetCoord()[1]-self.rect.height/2-self.t.rect.height/2))
                 self.t.change_text(str(self.GetCoord()))
             else: #delete self.t
-                pass
+                self.t.Delete()
     
     def Traect(self, ite=10):
         if (self.GetCoord() != (self.start_x, self.start_y)):
