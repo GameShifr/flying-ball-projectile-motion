@@ -1,19 +1,18 @@
-from data import *
-from sprite import GameObj
-from pygame import font as pygameFont, rect as pygameRect
+from Data import *
+from resourses.sprite import Sprite
+from pygame import font as pygameFont, Rect as pygameRect
 
-class Text(GameObj):
-    text = ""
+class Text(Sprite):
 
-    def __init__(self, screen, x: float=0, y: float=0, layer=-1) -> None:
-        self.rect = pygameRect.Rect(x, y, 0, 0)
-        super().__init__(screen, x, y, layer, False)
+    def __init__(self, screen, rot=0, pos=(0, 0), size=(24, 24*5), collider=False, clickable=True) -> None:
+        self.text = ""
+        self.rect = pygameRect(0, 0, 0, 0)
+        super().__init__(screen, rot, pos, size, collider=collider, clickable=clickable)
 
-    def change_sprite(self, size=24, font="arial", color=BLACK, bgcolor=None):
-        f = pygameFont.SysFont(font, size)
+    def change_sprite(self, font="arial", color=BLACK, bgcolor=None):
+        f = pygameFont.SysFont(font, self.size[0])
         self.image = f.render(self.text, True, color, bgcolor)
-        #self.rect.width = self.image.get_width()
-        self.rect.width = size*5
+        self.rect.width = self.size[1]
         self.rect.height = self.image.get_height()
     
     def change_text(self, text:str):
@@ -23,26 +22,29 @@ class Text(GameObj):
     def Resize(self, size):
         self.size = size
         self.change_sprite()
+    
+    def RotateTo(self, angle: float):
+        pass
 
 
-class Button(Text):
-    clicked = False
-    inp_text = "0"
-    def __init__(self, screen, x: float = 0, y: float = 0, layer=-1, canEdit=False, colors=((BLACK, None), (RED, BLUE), (RED, None)), editRange=None, oneText=False) -> None:
-        self.colors = colors #(color, bgcolor): normal, chose, click
-        self.canEdit = canEdit
+class Entry(Text):
+
+    def __init__(self, screen, rot=0, pos=(0, 0), size=(24, 24*5), colors=((BLACK, None), (RED, BLUE), (RED, None)), editRange=None, oneText=False, collider=False, clickable=True) -> None:
+        self.inp_text = "0"
+        self.colors = colors
         self.editRange = editRange
+        self.active = False
         self.oneText = oneText
-        super().__init__(screen, x, y, layer)
-
-    def GetInput(self):
-        if (self.clicked == True):
+        super().__init__(screen, rot, pos, size, collider=collider, clickable=clickable)
+    
+    def GetInp(self):
+        if (self.active == True):
             if (self.editRange[0] != None):
                 if (int(self.inp_text) < self.editRange[0]):
                     return self.editRange[0]
             return int(self.inp_text)
         return None
-
+    
     def Input(self, sim):
         if (sim != ""):
             if (sim == "backspace"):
@@ -66,24 +68,27 @@ class Button(Text):
                         t = self.inp_text
                 
                 self.inp_text = str(t)
+    
+    def Select(self) -> None:
+        #self.rect.collidepoint(GameData.cursorPos)
+        self.change_text(self.inp_text)
+        self.change_sprite(color=self.colors[1][0], bgcolor=self.colors[1][1])
+        self.Input(GameData.key)
+        GameData.key = ""
+        super().Select()
 
-    def Click(self):
-        self.clicked = not self.clicked
+    def Click(self) -> None:
+        self.active = not self.active
+        super().Click()
 
-    def Update(self):
-        if (self.clicked):
+    def Update(self) -> None:
+        if (self.active):
             self.change_text(self.inp_text)
             self.change_sprite(color=self.colors[2][0], bgcolor=self.colors[2][1])
         else:
-            self.change_sprite(color=self.colors[0][0], bgcolor=self.colors[0][1])
             if (self.oneText):
                 self.change_text(self.inp_text)
-            else: self.change_text(self.text)
-        if (self.rect.collidepoint(GameData.cursorPos)): #opt
-            self.change_text(self.inp_text)
-            self.change_sprite(color=self.colors[1][0], bgcolor=self.colors[1][1])
-            self.Input(GameData.key)
-            GameData.key = ""
-            if GameData.click == True:
-                self.Click()
-                GameData.click = False
+            else:
+                self.change_text(self.text)
+            self.change_sprite(color=self.colors[0][0], bgcolor=self.colors[0][1])
+        super().Update()
